@@ -23,9 +23,9 @@ public class MediationKeywordAnalysisSimple implements MediationKeywordAnalysis 
     }
 
     private static ThreadFactory eventCustomerThreadFactory = new ThreadFactoryBuilder().setNameFormat("MediationKeywordAnalysisSimple-pool-%d").build();
-    private static ExecutorService executorService = new ThreadPoolExecutor(10, 70,
+    private static ExecutorService executorService = new ThreadPoolExecutor(10, 120,
             0L, TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<Runnable>(100), eventCustomerThreadFactory, new ThreadPoolExecutor.AbortPolicy());
+            new LinkedBlockingQueue<Runnable>(1000), eventCustomerThreadFactory, new ThreadPoolExecutor.AbortPolicy());
 
     @Override
     public List<MediationKeywordNode> buildsMediationKeywordNodes(MediationKeywordAnalysisContext mediationKeywordAnalysisContext) {
@@ -82,7 +82,7 @@ public class MediationKeywordAnalysisSimple implements MediationKeywordAnalysis 
             //等待15分钟
             countDownLatch.await(15 * 60, TimeUnit.SECONDS);
             //强制关停所有线程
-            executorService.shutdownNow();
+//            executorService.shutdownNow();
             for(CompetitiveKeywordNode node : queue){
                 list.add(node);
             }

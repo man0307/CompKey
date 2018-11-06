@@ -39,6 +39,10 @@ public abstract class CompKeyAlgorithmAbstract {
      * 中介关键词权重限制
      */
     private double intermediaryKeywordWeightLimit = 0.00000001d;
+    /**
+     *
+     */
+    private String srcFilePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.ORIGINAL_FILE_NAME;
 
     /**
      * 构造函数注入
@@ -73,7 +77,6 @@ public abstract class CompKeyAlgorithmAbstract {
      */
     public List<CompetitiveKeywordNode> competitiveKeywordRecommend(String keyWord) {
         long begTime = System.currentTimeMillis();
-        String srcFilePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.ORIGINAL_FILE_NAME;
         String destFilePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.CLEANED_FILE_NAME;
         String globalParticipleFilePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.ALL_PARTICIPLE_DOCUMENT_NAME;
         String cleanedFilePath = cleanData(srcFilePath, destFilePath);
@@ -163,6 +166,14 @@ public abstract class CompKeyAlgorithmAbstract {
 
     public void setIntermediaryKeywordWeightLimit(double intermediaryKeywordWeightLimit) {
         this.intermediaryKeywordWeightLimit = intermediaryKeywordWeightLimit;
+    }
+
+    public String getSrcFilePath() {
+        return srcFilePath;
+    }
+
+    public void setSrcFilePath(String srcFilePath) {
+         srcFilePath = srcFilePath;
     }
 
     public static void main(String[] args) {

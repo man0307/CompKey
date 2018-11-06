@@ -1,6 +1,7 @@
 package com.mcy.comkey.template.core.utils;
 
 import com.mcy.comkey.template.core.statics.FilePaths;
+import org.apache.lucene.search.BooleanQuery;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +10,7 @@ import java.util.*;
  * 辅助工具类
  * 编码转换：GBK转UTF-8
  * 中间文件清理
+ * 文件拆分
  *
  * @author 满朝阳 2018/11/3
  */
@@ -122,9 +124,54 @@ public class DataCleanUtils {
         }
     }
 
+    public static List<String> documentCutting(String srcFilePath, Integer count, Boolean deleteSrcFile) {
+        List<String> fileNames = new ArrayList<>();
+        File file = new File(srcFilePath);
+        if (file.isFile() && file.exists()) {
+            String name = file.getName();
+            Writer[] writers = new Writer[count];
+            try(
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+                    ) {
+                for (int i = 0; i < count; i++) {
+                    int separatorIndex = name.indexOf('.');
+                    String cuttingName = name.trim().substring(0, separatorIndex)
+                            + "_part" + i + name.substring(separatorIndex);
+                    fileNames.add(cuttingName);
+                    writers[i] = new OutputStreamWriter(new FileOutputStream(cuttingName), "utf-8");
+                }
+                String line = null;
+                int index = 0;
+                while ((line = bufferedReader.readLine()) != null){
+                    writers[index++%count].write(line);
+                }
+                for(Writer writer : writers){
+                    writer.flush();
+                    writer.close();
+                }
+                if(deleteSrcFile){
+                    if(file.exists() && file.isFile()){
+                        file.delete();
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            //todo logger
+            System.out.println("不是文件类型或者文件不存在");
+        }
+        return fileNames;
+    }
+
     public static void main(String[] args) throws IOException {
 //        transferFile("F:\\temp\\b.TRAIN","F:\\temp\\a.TRAIN");
 //        dataAnalysis("C:\\Users\\asus\\Desktop\\dianzishangwu\\keyWord.txt", "F:\\temp\\b.TRAIN");
+        documentCutting(FilePaths.ALL_PATH_SUFFIX + FilePaths.CLEANED_FILE_NAME,10,false);
         cleanIntermediateFile();
     }
 
