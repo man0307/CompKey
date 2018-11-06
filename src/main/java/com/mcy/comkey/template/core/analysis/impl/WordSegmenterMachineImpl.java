@@ -3,7 +3,7 @@ package com.mcy.comkey.template.core.analysis.impl;
 import com.mcy.comkey.template.core.analysis.inter.WordSegmenterMachine;
 import com.mcy.comkey.template.core.model.TwoTuple;
 import com.mcy.comkey.template.core.statics.FilePaths;
-import com.mcy.comkey.template.core.utils.DataAnalysisUtils;
+import com.mcy.comkey.template.core.utils.DataCleanUtils;
 import org.apdplat.word.WordFrequencyStatistics;
 import org.apdplat.word.segmentation.SegmentationAlgorithm;
 
@@ -30,7 +30,7 @@ public class WordSegmenterMachineImpl implements WordSegmenterMachine {
     public Map<String, Integer> wordFrequencyStatistics(String srcFilePath) {
         Map<String, Integer> frequentMap = new HashMap<>();
         //生成随机文件名称
-        String temporaryPath = DataAnalysisUtils.buildFileNameRandom();
+        String temporaryPath = DataCleanUtils.buildFileNameRandom();
         return wordFrequencyStatistics(srcFilePath, temporaryPath);
     }
 
@@ -71,7 +71,7 @@ public class WordSegmenterMachineImpl implements WordSegmenterMachine {
 //                }
             } catch (Exception e) {
                 //todo logger
-                System.out.println(e);
+//                System.out.println(e);
             }
             mapResult = buildData(participleFilePath);
         }
@@ -108,16 +108,16 @@ public class WordSegmenterMachineImpl implements WordSegmenterMachine {
                 }
             }
             //正常生成Map之后要删除临时文件
-System.out.println("尝试删除文件："+ file.getName());
+//System.out.println("尝试删除文件："+ file.getName());
             if (file.exists()) {
                 file.delete();
-System.out.println("删除文件："+ file.getName() + "成功");
+//System.out.println("删除文件："+ file.getName() + "成功");
             }
         } catch (FileNotFoundException e) {
             //todo logger
             e.printStackTrace();
         } catch (IOException e) {
-System.out.println("删除文件："+ file.getName()+ "失败");
+//System.out.println("删除文件："+ file.getName()+ "失败");
             //todo logger
             e.printStackTrace();
         }
@@ -136,7 +136,7 @@ System.out.println("删除文件："+ file.getName()+ "失败");
     public TwoTuple<String, Integer> associatedRecordExtract(String keyWord, String srcFilePath) {
         TwoTuple<String, Integer> resultTuple = new TwoTuple<String, Integer>();
         String lineSeparator = System.getProperty("line.separator");
-        String tempFileName = DataAnalysisUtils.buildFileNameRandom();
+        String tempFileName = DataCleanUtils.buildFileNameRandom();
         int count = 0;
         try (
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(srcFilePath));

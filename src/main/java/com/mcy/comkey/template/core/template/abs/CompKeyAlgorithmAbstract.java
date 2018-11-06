@@ -8,18 +8,11 @@ import com.mcy.comkey.template.core.model.MediationKeywordAnalysisContext;
 import com.mcy.comkey.template.core.model.MediationKeywordNode;
 import com.mcy.comkey.template.core.model.TwoTuple;
 import com.mcy.comkey.template.core.statics.FilePaths;
-import com.mcy.comkey.template.core.utils.DataAnalysisUtils;
-import org.apdplat.word.WordFrequencyStatistics;
-import org.apdplat.word.segmentation.SegmentationAlgorithm;
+import com.mcy.comkey.template.core.utils.DataCleanUtils;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
-import static com.mcy.comkey.template.core.statics.FilePaths.ALL_PATH_SUFFIX;
-import static com.mcy.comkey.template.core.statics.FilePaths.TEMP_FILE;
 
 /**
  * ComKey算法的核心骨架 （模板设计模式 +  策略模式）
@@ -79,6 +72,7 @@ public abstract class CompKeyAlgorithmAbstract {
      * @return
      */
     public List<CompetitiveKeywordNode> competitiveKeywordRecommend(String keyWord) {
+        long begTime = System.currentTimeMillis();
         String srcFilePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.ORIGINAL_FILE_NAME;
         String destFilePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.CLEANED_FILE_NAME;
         String globalParticipleFilePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.ALL_PARTICIPLE_DOCUMENT_NAME;
@@ -109,11 +103,14 @@ public abstract class CompKeyAlgorithmAbstract {
         //将最终结果保存到文件当中
         if (dumpResult(sortedList)) {
             //todo logger
-            System.out.println("保存最终结果成功");
+//            System.out.println("保存最终结果成功");
         } else {
             //todo lgger
-            System.out.println("保存最终结果失败");
+//            System.out.println("保存最终结果失败");
         }
+        DataCleanUtils.cleanIntermediateFile();
+        long endTime = System.currentTimeMillis();
+        System.out.println("执行总耗时为:"+ (endTime - begTime) +" 毫秒");
         return sortedList;
     }
 

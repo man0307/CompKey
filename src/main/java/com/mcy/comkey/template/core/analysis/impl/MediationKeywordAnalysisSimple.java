@@ -69,7 +69,7 @@ public class MediationKeywordAnalysisSimple implements MediationKeywordAnalysis 
         String filePath = FilePaths.ALL_PATH_SUFFIX + FilePaths.CLEANED_FILE_NAME;
         //多线程构造原始的CompetitiveKeywordNode列表
         countDownLatch = new CountDownLatch(mediationKeywordNodeList.size());
-        System.out.println("中介关键字总数:"+mediationKeywordNodeList.size());
+
 
         for (MediationKeywordNode node : mediationKeywordNodeList) {
             CompetitiveKeywordNodeBuilderContext context = new CompetitiveKeywordNodeBuilderContext();
@@ -109,7 +109,7 @@ public class MediationKeywordAnalysisSimple implements MediationKeywordAnalysis 
 
         @Override
         public void run() {
-            System.out.println("开始执行竞争性关键词的获取："+ context.getMediationKeywordNode());
+
             TwoTuple<String, Integer> tuple = wordSegmenterMachine
                     .associatedRecordExtract(context.getMediationKeywordNode().getWord(), context.getFilePath());
             String tempRecordsFilePath = tuple.getFirst();
@@ -119,7 +119,7 @@ public class MediationKeywordAnalysisSimple implements MediationKeywordAnalysis 
             //统计竞争关键字的频次
             MediationKeywordNode mediationKeywordNode = context.getMediationKeywordNode();
             Map<String, Integer> intermediaryKeyword = wordSegmenterMachine.wordFrequencyStatistics(tempRecordsFilePath);
-   System.out.println("中介关键字："+context.getMediationKeywordNode().getWord()+ " 获得了" + intermediaryKeyword.size()+ "个词频。");
+
             LinkedBlockingQueue<CompetitiveKeywordNode> queue = context.getQueue();
             for (Map.Entry<String, Integer> entry : intermediaryKeyword.entrySet()) {
                 try{
@@ -150,7 +150,6 @@ public class MediationKeywordAnalysisSimple implements MediationKeywordAnalysis 
                 }
             }
             countDownLatch.countDown();
-            System.out.println("queueSize:" + queue.size());
 
         }
     }
