@@ -23,6 +23,6 @@
     <root level="INFO">
         <appender-ref ref="logfile"/>
         <!-- 注释掉的话 word分词器就不会在控制台输出日志了 -->
-        <appender-ref ref="stdout"/>
+        <!--<appender-ref ref="stdout"/>-->
     </root>
 </configuration>

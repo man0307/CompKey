@@ -24,6 +24,6 @@ public class CompKeyAlgorithmSimpleFactory implements CompKeyAlgorithmFactory {
     public static void main(String[] args){
         CompKeyAlgorithmSimpleFactory compKeyAlgorithmSimpleFactory = new CompKeyAlgorithmSimpleFactory();
         CompKeyAlgorithmAbstract compKeyAlgorithmAbstract = compKeyAlgorithmSimpleFactory.buildCompKeyAlgorithm();
-        System.out.println(compKeyAlgorithmAbstract.competitiveKeywordRecommend("汰渍"));
+        compKeyAlgorithmAbstract.competitiveKeywordRecommend("蓝月亮");
     }
 }
