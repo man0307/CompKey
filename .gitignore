@@ -1,0 +1,19 @@
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+#数据文件
+allParticipleDocumentName.txt
+cleaned.TRAIN
+finallyResult.txt
+srcFile.TRAIN
+totleFrequent.TEMPORARY
+*.TEMPORARY
+*.txt
+
